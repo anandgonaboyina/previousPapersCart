@@ -18,7 +18,7 @@ export default function AuthPage() {
 
         {/* Close Button - ALWAYS routes back to home reliably */}
         <button
-          onClick={() => router.push("/")}
+          onClick={() => router.back()}
           className="absolute top-5 right-5 text-sky-200 hover:text-white transition-colors bg-sky-950/50 hover:bg-sky-800/80 p-2 rounded-full border border-sky-700/50"
           title="Close and go back home"
         >

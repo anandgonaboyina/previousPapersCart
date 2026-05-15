@@ -10,6 +10,38 @@ export default function PreviousPapersPage() {
     const [selectedYear, setSelectedYear] = useState("");
     const [uniSearch, setUniSearch] = useState("");
     const [isUniDropdownOpen, setIsUniDropdownOpen] = useState(false);
+    const [showPapers, setShowPapers] = useState(false);
+    const [savedPapers, setSavedPapers] = useState<any[]>([]);
+
+    // Load saved papers from localStorage on mount
+    React.useEffect(() => {
+        if (typeof window !== "undefined") {
+            const saved = localStorage.getItem("savedPapers");
+            if (saved) {
+                try {
+                    setSavedPapers(JSON.parse(saved));
+                } catch (e) {
+                    console.error("Failed to parse saved papers");
+                }
+            }
+        }
+    }, []);
+
+    const toggleSave = (paper: any) => {
+        setSavedPapers(prev => {
+            const isSaved = prev.some(p => p.id === paper.id);
+            let newSaved;
+            if (isSaved) {
+                newSaved = prev.filter(p => p.id !== paper.id);
+            } else {
+                newSaved = [...prev, paper];
+            }
+            if (typeof window !== "undefined") {
+                localStorage.setItem("savedPapers", JSON.stringify(newSaved));
+            }
+            return newSaved;
+        });
+    };
 
     const universities = ["JNTUH", "Osmania University", "Kakatiya University", "Andhra University"];
     const branches = ["CSE", "ECE", "EEE", "Mechanical", "Civil"];
@@ -38,21 +70,25 @@ export default function PreviousPapersPage() {
         setSelectedYear("");
         setUniSearch("");
         setIsUniDropdownOpen(false);
+        setShowPapers(false);
     };
 
     const handleCourseClick = (course: string) => {
         setSelectedCourse(course);
         setSelectedBranch("");
         setSelectedYear("");
+        setShowPapers(false);
     };
 
     const handleBranchClick = (branch: string) => {
         setSelectedBranch(branch);
         setSelectedYear("");
+        setShowPapers(false);
     };
 
     const handleYearClick = (year: string) => {
         setSelectedYear(year);
+        setShowPapers(false);
     };
 
     return (
@@ -336,7 +372,11 @@ export default function PreviousPapersPage() {
                                 <p className="text-neutral-600 dark:text-neutral-400 mb-8 max-w-lg mx-auto text-lg">
                                     We've found the previous year question papers matching your criteria. Ready to start preparing?
                                 </p>
-                                <button type="button" className="px-10 py-4 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 text-lg font-semibold rounded-full hover:scale-105 transition-all duration-300 shadow-xl shadow-neutral-900/20 dark:shadow-white/10 flex items-center gap-2 cursor-pointer">
+                                <button 
+                                    type="button" 
+                                    onClick={() => setShowPapers(true)}
+                                    className="px-10 py-4 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 text-lg font-semibold rounded-full hover:scale-105 transition-all duration-300 shadow-xl shadow-neutral-900/20 dark:shadow-white/10 flex items-center gap-2 cursor-pointer"
+                                >
                                     View Papers
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -344,6 +384,73 @@ export default function PreviousPapersPage() {
                                 </button>
                             </div>
                         </div>
+
+                        {/* Papers Listing Area */}
+                        {showPapers && (
+                            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                {[
+                                    {
+                                        id: `${selectedUniversity}-${selectedCourse}-${selectedBranch}-${selectedYear}-1`.replace(/\s+/g, '-'),
+                                        title: "Core Subject Previous Paper - Regular",
+                                        university: selectedUniversity,
+                                        course: selectedCourse,
+                                        branch: selectedBranch,
+                                        year: selectedYear,
+                                        type: "pdf"
+                                    },
+                                    {
+                                        id: `${selectedUniversity}-${selectedCourse}-${selectedBranch}-${selectedYear}-2`.replace(/\s+/g, '-'),
+                                        title: "Advanced Subject - Supplementary",
+                                        university: selectedUniversity,
+                                        course: selectedCourse,
+                                        branch: selectedBranch,
+                                        year: selectedYear,
+                                        type: "photo"
+                                    }
+                                ].map((paper) => {
+                                    const isSaved = savedPapers.some(p => p.id === paper.id);
+                                    return (
+                                        <div key={paper.id} className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 sm:p-5 flex items-center gap-4 hover:shadow-lg transition-shadow">
+                                            {/* Type Icon */}
+                                            <div className={`p-3 rounded-xl flex-shrink-0 ${paper.type === 'pdf' ? 'bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400' : 'bg-blue-50 text-blue-500 dark:bg-blue-900/20 dark:text-blue-400'}`}>
+                                                {paper.type === 'pdf' ? (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                )}
+                                            </div>
+
+                                            {/* Paper Details */}
+                                            <div className="flex-1 min-w-0">
+                                                <h4 className="font-bold text-neutral-900 dark:text-white truncate text-sm sm:text-base">{paper.title}</h4>
+                                                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 truncate">
+                                                    {paper.university} • {paper.year}
+                                                </p>
+                                            </div>
+
+                                            {/* Save Button */}
+                                            <button
+                                                onClick={() => toggleSave(paper)}
+                                                className={`p-2.5 rounded-full transition-colors flex-shrink-0 border ${
+                                                    isSaved 
+                                                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400' 
+                                                    : 'bg-white border-neutral-200 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800'
+                                                }`}
+                                                title={isSaved ? "Remove from Saved" : "Save Paper"}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
