@@ -14,8 +14,8 @@ const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     const baseNavLinks = [
-        { name: "Previous Papers", href: "/previous-papers" },
-        { name: "Student Store", href: "/store" },
+        { name: "Previous Papers", href: "/previousPapers" },
+        { name: "Student Store", href: "/studentStore" },
     ];
 
     const handleLogout = () => {
@@ -30,8 +30,8 @@ const Navbar = () => {
     return (
         <>
             {/* Top Navigation Bar */}
-            <nav className="fixed w-full top-0 z-50 bg-sky-950/70 backdrop-blur-md border-b border-sky-800/60 shadow-lg shadow-sky-900/20">
-                <div className="max-w-full  px-4 sm:px-6 lg:px-8">
+            <nav className="sticky w-full top-0 z-50 bg-sky-950/70 backdrop-blur-md border-b border-sky-800/60 shadow-lg shadow-sky-900/20">
+                <div className="max-w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-20">
 
                         {/* Logo Section */}
@@ -95,8 +95,8 @@ const Navbar = () => {
             </nav>
             {/* Secondary Section (Below Navbar) - Hidden on Home Page */}
             {pathName !== "/" && (
-                <div className="pt-21 pb-6 mx-2 px-4 sm:px-6 lg:px-8 py-8 fixed">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4rounded-2xl ">
+                <div className="py-4 px-4 sm:px-6 lg:px-8 w-full sticky top-20 z-40 pointer-events-none bg-gradient-to-b from-neutral-50/90 to-transparent dark:from-neutral-950/90 backdrop-blur-sm">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-2xl pointer-events-none">
 
                         {/* Navigation Links */}
                         <div className="flex flex-wrap items-center gap-2 sm:gap-6">
@@ -105,7 +105,7 @@ const Navbar = () => {
                                 return (<Link
                                     key={link.name}
                                     href={link.href}
-                                    className={(isActive ? "bg-sky-800 " : "text-black ") + "px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium border border-sky-800/60 hover:bg-sky-800/60 hover:border-sky-600 hover:text-white transition-all duration-300 shadow-sm whitespace-nowrap"}
+                                    className={(isActive ? "bg-sky-800 " : "text-black ") + "px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium border border-sky-800/60 hover:bg-sky-800/60 hover:border-sky-600 hover:text-white transition-all duration-300 shadow-sm whitespace-nowrap pointer-events-auto"}
                                 >
                                     {link.name}
                                 </Link>);
