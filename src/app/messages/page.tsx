@@ -57,19 +57,19 @@ export default function MessagesPage() {
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
         if (!newMessage.trim()) return;
-        
+
         setMessages([...messages, { id: Date.now(), sender: "user", text: newMessage }]);
         setNewMessage("");
     };
 
     return (
         <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col">
-            
+
             {/* If no chat is active, show the list of all messages */}
             {!activeChat ? (
                 <div className="flex-1 w-full max-w-3xl mx-auto pt-24 pb-12 px-4 sm:px-6">
                     <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-6">Messages</h1>
-                    
+
                     {chats.length === 0 ? (
                         <div className="text-center py-20 text-neutral-500">
                             No messages yet. Start a chat from the Student Store!
@@ -77,8 +77,8 @@ export default function MessagesPage() {
                     ) : (
                         <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-sm border border-neutral-200 dark:border-neutral-800 overflow-hidden">
                             {chats.map((chat) => (
-                                <div 
-                                    key={chat.id} 
+                                <div
+                                    key={chat.id}
                                     onClick={() => setActiveChat(chat.id)}
                                     className="flex items-center gap-4 p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 border-b border-neutral-100 dark:border-neutral-800 cursor-pointer transition-colors last:border-0"
                                 >
@@ -86,7 +86,7 @@ export default function MessagesPage() {
                                     <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex-shrink-0 flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold text-lg">
                                         {chat.sellerName.charAt(0)}
                                     </div>
-                                    
+
                                     {/* Chat Info */}
                                     <div className="flex-1 min-w-0">
                                         <div className="flex justify-between items-center mb-1">
@@ -113,7 +113,7 @@ export default function MessagesPage() {
                                     </div>
 
                                     {/* Delete Button */}
-                                    <button 
+                                    <button
                                         onClick={(e) => handleDeleteChat(e, chat.id)}
                                         className="p-2 text-neutral-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors ml-2"
                                         title="Delete Chat"
@@ -130,11 +130,11 @@ export default function MessagesPage() {
             ) : (
                 /* Chat Screen - Takes up full height */
                 <div className="flex-1 flex flex-col w-full max-w-3xl mx-auto h-[calc(100vh)] bg-white dark:bg-neutral-950">
-                    
+
                     {/* Chat Header with Back Button */}
                     <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm z-10 pt-20">
                         <div className="flex items-center gap-3">
-                            <button 
+                            <button
                                 onClick={() => setActiveChat(null)}
                                 className="p-2 -ml-2 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
                             >
@@ -142,11 +142,11 @@ export default function MessagesPage() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
-                            
+
                             <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
                                 {currentChatDetails?.sellerName.charAt(0)}
                             </div>
-                            
+
                             <div>
                                 <h3 className="font-bold text-neutral-900 dark:text-white leading-none mb-1">
                                     {currentChatDetails?.sellerName}
@@ -162,11 +162,10 @@ export default function MessagesPage() {
                     <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-neutral-50 dark:bg-neutral-950">
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${
-                                    msg.sender === 'user' 
-                                    ? 'bg-emerald-600 text-white rounded-br-sm' 
+                                <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${msg.sender === 'user'
+                                    ? 'bg-emerald-600 text-white rounded-br-sm'
                                     : 'bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 rounded-bl-sm border border-neutral-200 dark:border-neutral-700 shadow-sm'
-                                }`}>
+                                    }`}>
                                     {msg.text}
                                 </div>
                             </div>
@@ -183,7 +182,7 @@ export default function MessagesPage() {
                                 placeholder="Type a message..."
                                 className="flex-1 bg-neutral-100 dark:bg-neutral-800 border-none rounded-full px-5 py-3.5 pr-12 text-sm text-neutral-900 dark:text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                             />
-                            <button 
+                            <button
                                 type="submit"
                                 disabled={!newMessage.trim()}
                                 className="absolute right-1.5 p-2 bg-emerald-600 text-white rounded-full hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

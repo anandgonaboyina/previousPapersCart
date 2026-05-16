@@ -3,72 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-// Mock Data
-const COLLEGES = ["All Locations", "JNTUH", "Osmania University", "Kakatiya University", "Andhra University"];
-
-const MOCK_PRODUCTS = [
-    {
-        id: 1,
-        name: "Engineering Drawing Set",
-        price: "₹450",
-        age: "1 year old",
-        location: "JNTUH",
-        seller: "Rahul M.",
-        image: "https://m.media-amazon.com/images/I/51drEYZBKML._SY300_SX300_QL70_FMwebp_.jpg",
-        category: "Instruments"
-    },
-    {
-        id: 2,
-        name: "Data Structures Textbook (C++)",
-        price: "₹300",
-        age: "2 years old",
-        location: "Osmania University",
-        seller: "Priya S.",
-        image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400&h=300",
-        category: "Books"
-    },
-    {
-        id: 3,
-        name: "Scientific Calculator (Casio FX-991EX)",
-        price: "₹850",
-        age: "6 months old",
-        location: "JNTUH",
-        seller: "Arjun K.",
-        image: "https://rukminim2.flixcart.com/image/480/640/xif0q/calculator/6/n/f/advanced-scientific-calculator-with-2-line-display-science-original-imahdae5drwg5bv3.jpeg?q=90",
-        category: "Electronics"
-    },
-    {
-        id: 4,
-        name: "First Year B.Tech Complete Books",
-        price: "₹1200",
-        age: "1.5 years old",
-        location: "Kakatiya University",
-        seller: "Neha V.",
-        image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=400&h=300",
-        category: "Books"
-    },
-    {
-        id: 5,
-        name: "Mini Drafter",
-        price: "₹200",
-        age: "2 years old",
-        location: "Andhra University",
-        seller: "Karthik R.",
-        image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRCEpIUAfd2Lb_xj85YICx3v_3P9LRBbZ7of1TWzQXQM1hDf95VvujyHV2bM9K1mNmUbD5GauPBqEw4duAz1Fe9i1V_mcSF_bFr12zmEo-lu5iADwYD7Y0cTQ",
-        category: "Instruments"
-    },
-    {
-        id: 6,
-        name: "Arduino Uno Kit",
-        price: "₹1500",
-        age: "3 months old",
-        location: "Osmania University",
-        seller: "Sandeep B.",
-        image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&q=80&w=400&h=300",
-        category: "Electronics"
-    }
-];
+import { MOCK_PRODUCTS, COLLEGES } from "@/data/products";
 
 export default function StudentStorePage() {
     const router = useRouter();
@@ -82,9 +17,13 @@ export default function StudentStorePage() {
         return matchesLocation && matchesSearch;
     });
 
-    const openChat = (product: any) => {
-        // Navigate to the chat screen and auto-open this specific seller's chat
-        router.push(`/studentStore/chatScreen?productId=${product.id}&seller=${encodeURIComponent(product.seller)}&productName=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image)}`);
+    const openChat = (e: React.MouseEvent, product: any) => {
+        e.stopPropagation();
+        router.push(`/studentStore/chatScreen?productId=${product.id}&seller=${encodeURIComponent(product.seller)}&productName=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.images[0])}`);
+    };
+
+    const openProduct = (product: any) => {
+        router.push(`/studentStore/productPage?id=${product.id}`);
     };
 
     return (
@@ -148,11 +87,11 @@ export default function StudentStorePage() {
                 {filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
                         {filteredProducts.map((product) => (
-                            <div key={product.id} className="bg-white dark:bg-neutral-900 rounded-2xl sm:rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
+                            <div key={product.id} onClick={() => openProduct(product)} className="bg-white dark:bg-neutral-900 rounded-2xl sm:rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full cursor-pointer">
                                 {/* Image Area */}
                                 <div className="relative h-32 sm:h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-800">
                                     <img
-                                        src={product.image}
+                                        src={product.images[0]}
                                         alt={product.name}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
@@ -194,7 +133,7 @@ export default function StudentStorePage() {
 
                                     {/* Action Button */}
                                     <button
-                                        onClick={() => openChat(product)}
+                                        onClick={(e) => openChat(e, product)}
                                         className="w-full mt-auto py-2 sm:py-3 bg-neutral-100 hover:bg-emerald-50 dark:bg-neutral-800 dark:hover:bg-emerald-900/30 text-neutral-900 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold text-xs sm:text-sm rounded-lg sm:rounded-xl transition-colors duration-300 flex justify-center items-center gap-1 sm:gap-2 border border-transparent hover:border-emerald-200 dark:hover:border-emerald-800/50"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -227,6 +166,6 @@ export default function StudentStorePage() {
                 )}
             </div>
 
-        </div>
+        </div >
     );
 }
