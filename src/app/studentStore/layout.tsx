@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar/page";
+import Navbar from "@/components/navBar";
 
 export default function storeLayout({
   children,

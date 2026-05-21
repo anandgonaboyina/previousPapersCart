@@ -51,11 +51,6 @@ const teamMembers = [
     avatar: "/avatars/Anand%20Kumar.jpeg",
   },
   {
-    name: "Jyothir Ganesh",
-    roles: ["UI/UX Designer", "Frontend Developer"],
-    avatar: "/avatars/jyothir%20Ganesh.png",
-  },
-  {
     name: "Sathish Kumar",
     roles: ["Database Engineer", "User Research"],
     avatar: "https://ui-avatars.com/api/?name=Sathish+Kumar&background=2563eb&color=fff",

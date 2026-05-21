@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function PreviousPapersPage() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -372,8 +373,8 @@ export default function PreviousPapersPage() {
                                 <p className="text-neutral-600 dark:text-neutral-400 mb-8 max-w-lg mx-auto text-lg">
                                     We've found the previous year question papers matching your criteria. Ready to start preparing?
                                 </p>
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     onClick={() => setShowPapers(true)}
                                     className="px-10 py-4 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 text-lg font-semibold rounded-full hover:scale-105 transition-all duration-300 shadow-xl shadow-neutral-900/20 dark:shadow-white/10 flex items-center gap-2 cursor-pointer"
                                 >
@@ -415,11 +416,11 @@ export default function PreviousPapersPage() {
                                             <div className={`p-3 rounded-xl flex-shrink-0 ${paper.type === 'pdf' ? 'bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400' : 'bg-blue-50 text-blue-500 dark:bg-blue-900/20 dark:text-blue-400'}`}>
                                                 {paper.type === 'pdf' ? (
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                                     </svg>
                                                 ) : (
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
                                                 )}
                                             </div>
@@ -435,11 +436,10 @@ export default function PreviousPapersPage() {
                                             {/* Save Button */}
                                             <button
                                                 onClick={() => toggleSave(paper)}
-                                                className={`p-2.5 rounded-full transition-colors flex-shrink-0 border ${
-                                                    isSaved 
-                                                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400' 
+                                                className={`p-2.5 rounded-full transition-colors flex-shrink-0 border ${isSaved
+                                                    ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400'
                                                     : 'bg-white border-neutral-200 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800'
-                                                }`}
+                                                    }`}
                                                 title={isSaved ? "Remove from Saved" : "Save Paper"}
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -453,6 +453,18 @@ export default function PreviousPapersPage() {
                         )}
                     </div>
                 )}
+                {/* Floating Action Button (FAB) for Paper Upload */}
+                <div className="fixed bottom-24 right-6 z-[9999]">
+                    <Link
+                        href="/upload"
+                        className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300 pointer-events-auto border border-blue-400/20 group"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5.5 w-5.5 text-white group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span className="text-sm font-semibold tracking-wide pr-1">Contribute Paper</span>
+                    </Link>
+                </div>
             </div>
         </div>
     );
