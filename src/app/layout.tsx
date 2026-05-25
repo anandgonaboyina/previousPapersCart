@@ -40,7 +40,7 @@ export default function RootLayout({
           headerSubtitle: "",
 
           // 4. Social buttons
-          socialButtonsBlockButton: "!bg-white !border !rounded-mdS !border-blue-500",
+          socialButtonsBlockButton: "!bg-white !border !rounded-full !border-blue-500",
           socialButtonsBlockButtonText: "!text-black !bg-white ",
 
           // 5. Divider
@@ -49,10 +49,10 @@ export default function RootLayout({
 
           // 6. Form elements
           formFieldLabel: "!text-black",
-          formFieldInput: "h-30 !text-[14px] ",
+          formFieldInput: "h-30 !text-[14px] border border-blue-400 rounded-full outline-none focus:ring-none",
 
           // 7. Primary button
-          formButtonPrimary: " !bg-blue-500",
+          formButtonPrimary: " !bg-blue-500 rounded-full",
 
           // 8. Footer/Links
           footerActionText: "!text-black",

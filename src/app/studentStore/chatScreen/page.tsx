@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-
+import { Show, SignInButton } from "@clerk/nextjs"
 // Dummy Data that will later be replaced by Backend API calls
 const INITIAL_CHATS = [
     {
@@ -325,10 +325,53 @@ function ChatScreenContent() {
     );
 }
 
+
+
+
 export default function ChatScreenPage() {
     return (
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-950">Loading chats...</div>}>
-            <ChatScreenContent />
+            <Show when="signed-out">
+                <div className="min-h-[78vh] bg-neutral-50 dark:bg-neutral-950 relative flex flex-col items-center justify-center pt-8 md:pt-12 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+                    {/* Background Elements */}
+                    <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
+                        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-600/5 blur-[100px] rounded-full"></div>
+                        <div className="absolute bottom-1/3 left-1/4 w-72 h-72 bg-teal-500/10 dark:bg-teal-600/5 blur-[100px] rounded-full"></div>
+                    </div>
+
+                    <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-300">
+                        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-8 md:p-12 text-center shadow-xl space-y-6">
+                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                            </div>
+                            <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">
+                                Authentication Required
+                            </h2>
+                            <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                                You need to be signed in to access your chats. Log in to message sellers, discuss item details, and coordinate pickups.
+                            </p>
+                            <div className="pt-2">
+                                <Link href="/sign-in"
+                                    className="inline-block w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-full hover:scale-105 hover:cursor-pointer transition-all duration-300 shadow-lg shadow-emerald-600/20 text-center"
+                                >
+                                    Sign In to Chat
+                                </Link>
+                            </div>
+                            <div className="text-center pt-2">
+                                <Link href="/studentStore" className="text-xs text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors">
+                                    Back to Student Store
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Show>
+
+            <Show when="signed-in">
+                <ChatScreenContent />
+            </Show>
         </Suspense>
     );
 }

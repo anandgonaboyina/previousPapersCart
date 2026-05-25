@@ -23,7 +23,7 @@ const Navbar = () => {
     const handleLogin = () => {
         setIsLoggedIn(true);
     };
-    const NoSecondaryNavBarPages = ["/", "/upload", "/sign-in", "/sign-up", "/studentStore/sell"];
+    const NoSecondaryNavBarPages = ["/", "/upload", "/sign-in", "/sign-up", "/studentStore/sell", "/studentStore/chatScreen", "/SavedPapers"];
     const pathName = usePathname();
     return (
         <>
@@ -68,19 +68,20 @@ const Navbar = () => {
 
 
             </nav>
-            {/* Secondary Section (Below Navbar) - Hidden on Home Page */}
+            {/* Secondary Section (Below Navbar) */}
             {!NoSecondaryNavBarPages.includes(pathName) && (
-                <div className="py-2 px-4 sm:px-6 lg:px-8 w-full sticky top-14 z-40 pointer-events-none bg-gradient-to-b from-neutral-50/90 to-transparent dark:from-neutral-950/90 backdrop-blur-sm">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-2xl pointer-events-none">
+                <div className="w-full flex items-center justify-center py-2 px-4 sm:px-6 lg:px-8  sticky top-14 z-40 pointer-events-none bg-gradient-to-b from-neutral-50/90 to-transparent dark:from-neutral-950/90 ">
+                    <div className="w-fit border border-blue-100 p-1 bg-white flex flex-col md:flex-row md:items-center justify-center gap-4 rounded-2xl pointer-events-none shadow-md shadow-black/20">
 
                         {/* Navigation Links */}
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-6">
+                        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-6">
                             {baseNavLinks.map((link) => {
                                 const isActive = pathName === link.href || pathName.startsWith(`${link.href}/`) && pathName != "/";
                                 return (<Link
                                     key={link.name}
                                     href={link.href}
-                                    className={(isActive ? "bg-sky-800 " : "text-black ") + "px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium border border-sky-800/60 hover:bg-sky-800/60 hover:border-sky-600 hover:text-white transition-all duration-300 shadow-sm whitespace-nowrap pointer-events-auto"}
+                                    className={isActive ? (pathName === "/studentStore" ? "bg-emerald-600" : "bg-sky-500") + (" text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium border border-sky-800/60 hover:bg-sky-800/60 hover:border-sky-600 hover:text-white transition-all duration-300 shadow-sm whitespace-nowrap pointer-events-auto") : (
+                                        "text-sky-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium border border-sky-800/60 hover:bg-sky-800/60 hover:border-sky-600 hover:text-white transition-all duration-300 shadow-sm whitespace-nowrap pointer-events-auto")}
                                 >
                                     {link.name}
                                 </Link>);

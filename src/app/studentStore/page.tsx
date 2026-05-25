@@ -171,7 +171,7 @@ export default function StudentStorePage() {
             <div className="fixed bottom-24 right-6 z-[9999]">
                 <Link
                     href="/studentStore/sell"
-                    className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-full shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-105 transition-all duration-300 pointer-events-auto border border-emerald-400/20 group"
+                    className="flex items-center gap-2 px-2 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-full shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-105 transition-all duration-300 pointer-events-auto border border-emerald-400/20 group"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5.5 w-5.5 text-white group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />

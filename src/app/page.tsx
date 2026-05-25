@@ -229,8 +229,8 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-4 sm:gap-8 max-w-5xl mx-auto">
             {teamMembers.map((member, index) => (
               <RevealOnScroll key={member.name} delay={index * 150}>
-                <div className="w-[165px] sm:w-[280px] bg-sky-950/40 border border-sky-800/40 rounded-2xl p-4 sm:p-6 flex flex-col items-center text-center hover:bg-sky-900/40 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-sky-900/10 h-full">
-                  <div className="w-18 h-18 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-3 sm:mb-5 border-2 border-sky-500/50 shadow-lg shadow-sky-900/50">
+                <div className="w-[230px] sm:w-[340px] bg-sky-950/40 border border-sky-800/40 rounded-2xl p-4 sm:p-6 flex flex-col items-center text-center hover:bg-sky-900/40 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-sky-900/10 h-full">
+                  <div className="w-25 h-25 sm:w-40 sm:h-40 rounded-full overflow-hidden mb-3 sm:mb-5 border-2 border-sky-500/50 shadow-lg shadow-sky-900/50">
                     <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                   </div>
                   <h4 className="text-sm sm:text-xl font-bold text-white mb-2 sm:mb-3">{member.name}</h4>

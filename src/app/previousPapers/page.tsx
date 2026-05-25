@@ -5,6 +5,20 @@ import Link from "next/link";
 
 export default function PreviousPapersPage() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
+    const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+    React.useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+                e.preventDefault();
+                searchInputRef.current?.focus();
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
     const [selectedUniversity, setSelectedUniversity] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedBranch, setSelectedBranch] = useState("");
@@ -113,36 +127,62 @@ export default function PreviousPapersPage() {
                 </div>
 
                 {/* Universal Search */}
-                <div className="relative group max-w-3xl mx-auto">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-20 group-hover:opacity-30 transition duration-500 pointer-events-none"></div>
-                    <div className="relative flex items-center w-full h-12 sm:h-16 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="pl-6 text-neutral-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <div className="relative group max-w-3xl mx-auto w-full px-2 sm:px-0">
+                    {/* Glowing back element */}
+                    <div className={`absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 rounded-full blur-xl opacity-20 transition duration-1000 group-hover:opacity-40 group-hover:duration-300 ${isFocused ? 'opacity-50 blur-2xl scale-[1.02]' : ''}`}></div>
+
+                    {/* Main input wrapper */}
+                    <div className={`relative flex items-center w-full h-12 sm:h-14 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-lg border rounded-full overflow-hidden shadow-2xl transition-all duration-300 px-1.5 sm:px-2.5 ${isFocused
+                        ? 'border-blue-500/80 ring-4 ring-blue-500/10 dark:ring-blue-400/10 dark:border-blue-400/80 shadow-blue-500/10 dark:shadow-blue-400/5'
+                        : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700'
+                        }`}>
+
+                        {/* Search Icon */}
+                        <div className={`pl-2 sm:pl-3 text-neutral-400 transition-colors duration-300 ${isFocused ? 'text-blue-500 dark:text-blue-400' : ''}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
+
+                        {/* Input Field */}
                         <input
+                            ref={searchInputRef}
                             type="text"
-                            className="w-full h-full bg-transparent sm:text-2 sm:px-3 md:px-4 md:text-md text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none"
-                            placeholder="Search by subject name, code, or year..."
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            className="w-full h-full bg-transparent px-2 sm:px-3 text-xs sm:text-sm md:text-base text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none font-semibold"
+                            placeholder="Search by subject name, code or year..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        {searchQuery && (
+                        <div className="flex items-center gap-1.5 sm:gap-2.5 pr-1 sm:pr-1.5">
+                            {searchQuery ? (
+                                <button
+                                    onClick={() => setSearchQuery("")}
+                                    className="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors cursor-pointer rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                                    aria-label="Clear search"
+                                    type="button"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            ) : (
+                                <span className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/80 text-[9px] font-bold text-neutral-400 tracking-wider shadow-sm select-none">
+                                    <kbd className="font-sans">Ctrl</kbd> + <kbd className="font-sans">K</kbd>
+                                </span>
+                            )}
+
                             <button
-                                onClick={() => setSearchQuery("")}
-                                className="pr-4 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors cursor-pointer"
-                                aria-label="Clear search"
                                 type="button"
+                                className="h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer flex-shrink-0"
+                                aria-label="Search"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </button>
-                        )}
-                        <button type="button" className="h-full px-5 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 font-medium transition-colors cursor-pointer">
-                            Search
-                        </button>
+                        </div>
                     </div>
                 </div>
 
@@ -457,7 +497,7 @@ export default function PreviousPapersPage() {
                 <div className="fixed bottom-24 right-6 z-[9999]">
                     <Link
                         href="/upload"
-                        className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300 pointer-events-auto border border-blue-400/20 group"
+                        className="flex items-center gap-2 px-2 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300 pointer-events-auto border border-blue-400/20 group"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5.5 w-5.5 text-white group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
